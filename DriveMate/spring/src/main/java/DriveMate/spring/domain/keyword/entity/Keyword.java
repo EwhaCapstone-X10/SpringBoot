@@ -8,7 +8,7 @@ import lombok.*;
 @Entity
 @Table(name = "Keyword", indexes = {
         @Index(name = "idx_keywords_name", columnList = "name"),
-        @Index(name = "idx_keywords_category", columnList = "category")
+        @Index(name = "idx_keywords_field", columnList = "field")
 })
 @NoArgsConstructor
 @AllArgsConstructor
