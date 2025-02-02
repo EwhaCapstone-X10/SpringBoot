@@ -1,6 +1,7 @@
 package DriveMate.spring.domain.member.entity;
 
 import DriveMate.spring.domain.chat.entity.Chat;
+import DriveMate.spring.domain.member.dto.MemberRequestDto;
 import DriveMate.spring.domain.memberKeyword.entity.MemberKeyword;
 import jakarta.persistence.*;
 import lombok.*;
@@ -39,7 +40,10 @@ public class Member {
 
     @Column(name = "sex")
     @Enumerated(EnumType.STRING)
-    private Sex sex;
+    private MemberSex sex;
+
+    @Column(name = "age")
+    private Integer age;
 
     @Column(name = "occupation")
     private String occupation;
@@ -64,7 +68,4 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<Chat> chats;
 
-    public enum Sex {
-        MALE, FEMALE
-    }
 }
