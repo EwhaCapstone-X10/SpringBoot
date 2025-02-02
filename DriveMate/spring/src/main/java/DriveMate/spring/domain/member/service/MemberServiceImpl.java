@@ -37,4 +37,26 @@ public class MemberServiceImpl implements MemberService {
                 .signupTime(member.getCreatedAt())
                 .build();
     }
+
+    @Override
+    public MemberResponseDto.userInfodto userInfo(MemberRequestDto.userInfoDto request) {
+
+        Member member = memberRepository.findById(request.getMemberId())
+                .orElseThrow(() -> new GeneralException(ErrorStatus.MEMBER_NOT_FOUND));
+
+        member.setName(request.getName());
+        member.setAge(request.getAge());
+        member.setSex(request.getSex());
+        member.setOccupation(request.getOccupation());
+
+        memberRepository.save(member);
+        return MemberResponseDto.userInfodto.builder()
+                .memberId(member.getMemberId())
+                .name(member.getName())
+                .age(member.getAge())
+                .sex(member.getSex())
+                .occupation(member.getOccupation())
+                .build();
+
+    }
 }
