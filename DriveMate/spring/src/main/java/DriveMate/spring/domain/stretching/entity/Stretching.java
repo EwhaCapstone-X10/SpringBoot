@@ -20,7 +20,7 @@ public class Stretching {
 
     private String videoUrl;
 
-    private String name;
+    private String title;
 
     private String description;
 }
