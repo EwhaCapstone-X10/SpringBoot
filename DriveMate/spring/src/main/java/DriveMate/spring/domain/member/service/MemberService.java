@@ -7,4 +7,5 @@ import jakarta.validation.Valid;
 public interface MemberService {
     MemberResponseDto.signupResultdto signupMember(MemberRequestDto.signupDto request);
     MemberResponseDto.userInfodto userInfo(MemberRequestDto.userInfoDto request);
+    MemberResponseDto.userInfodto getUserInfo(Long memberId);
 }
