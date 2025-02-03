@@ -59,4 +59,18 @@ public class MemberServiceImpl implements MemberService {
                 .build();
 
     }
+
+    @Override
+    public MemberResponseDto.userInfodto getUserInfo(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new GeneralException(ErrorStatus.MEMBER_NOT_FOUND));
+
+        return MemberResponseDto.userInfodto.builder()
+                .memberId(member.getMemberId())
+                .name(member.getName())
+                .age(member.getAge())
+                .sex(member.getSex())
+                .occupation(member.getOccupation())
+                .build();
+    }
 }

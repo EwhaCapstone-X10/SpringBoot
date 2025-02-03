@@ -8,13 +8,10 @@ import DriveMate.spring.domain.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/member")
+@RequestMapping("/members")
 @RequiredArgsConstructor
 public class MemberRestContoller {
 
@@ -35,6 +32,15 @@ public class MemberRestContoller {
             @RequestBody @Valid MemberRequestDto.userInfoDto request
     ) {
         MemberResponseDto.userInfodto response = memberService.userInfo(request);
+        return ApiResponse.onSuccess(SuccessStatus._OK, response);
+    }
+
+    // 개인정보 조회
+    @GetMapping("/info/{memberId}")
+    public ResponseEntity<ApiResponse> getUserinfo(
+            @PathVariable Long memberId
+    ) {
+        MemberResponseDto.userInfodto response = memberService.getUserInfo(memberId);
         return ApiResponse.onSuccess(SuccessStatus._OK, response);
     }
 
