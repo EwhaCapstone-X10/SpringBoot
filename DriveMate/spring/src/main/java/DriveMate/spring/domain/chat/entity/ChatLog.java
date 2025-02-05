@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -12,25 +13,21 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "chat")
-public class Chat {
+public class ChatLog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long sessionId;
+    private Long ChatLogId;
 
     @ManyToOne
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    private LocalDateTime startedAt;
+    private LocalDateTime date;
 
-    private LocalDateTime endedAt;
+    private String summary;
 
-    @Lob
-    private String content;
+    private String keywords;
 
-    private boolean isDeleted;
-
-    private LocalDateTime deletedAt;
-
+    @OneToMany(mappedBy = "chatLog", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ChatMessage> chatting;
 }

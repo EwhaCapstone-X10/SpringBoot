@@ -1,6 +1,6 @@
 package DriveMate.spring.domain.member.entity;
 
-import DriveMate.spring.domain.chat.entity.Chat;
+import DriveMate.spring.domain.chat.entity.ChatLog;
 import DriveMate.spring.domain.memberKeyword.entity.MemberKeyword;
 import jakarta.persistence.*;
 import lombok.*;
@@ -69,6 +69,6 @@ public class Member {
     private List<MemberKeyword> memberKeywords;
 
     @OneToMany(mappedBy = "member")
-    private List<Chat> chats;
+    private List<ChatLog> chats;
 
 }
