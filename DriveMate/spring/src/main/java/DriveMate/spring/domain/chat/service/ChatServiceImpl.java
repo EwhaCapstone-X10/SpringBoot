@@ -80,4 +80,13 @@ public class ChatServiceImpl implements ChatService {
                 .chatting(chatMessageDtos)
                 .build();
     }
+
+    @Override
+    public void deleteChat(Long chatId) {
+        // 권한 확인
+        ChatLog chatLog = chatLogRepository.findById(chatId)
+                .orElseThrow(() -> new GeneralException(ErrorStatus.CHAT_NOT_FOUND));
+
+        chatLogRepository.delete(chatLog);
+    }
 }
