@@ -48,6 +48,7 @@ public class Member {
     private String occupation;
 
     @Column(name = "mode")
+    @Enumerated(EnumType.STRING)
     private Mode mode;
 
     @Column(name = "is_deleted", nullable = false)
