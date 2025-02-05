@@ -47,6 +47,7 @@ public class MemberServiceImpl implements MemberService {
                 .build();
     }
 
+    @Transactional
     @Override
     public MemberResponseDto.userInfodto userInfo(MemberRequestDto.userInfoDto request) {
 
@@ -102,6 +103,10 @@ public class MemberServiceImpl implements MemberService {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new GeneralException(ErrorStatus.MEMBER_NOT_FOUND));
 
+        List<String> keywordnames = memberKeywordRepository.findAllByMember(member).stream()
+                .map(memberKeyword -> memberKeyword.getKeyword().getName())
+                .collect(Collectors.toList());
+
         return MemberResponseDto.userInfodto.builder()
                 .memberId(member.getMemberId())
                 .name(member.getName())
@@ -109,6 +114,8 @@ public class MemberServiceImpl implements MemberService {
                 .sex(member.getSex())
                 .mode(member.getMode())
                 .occupation(member.getOccupation())
+                .keywords(keywordnames)
                 .build();
     }
+
 }
