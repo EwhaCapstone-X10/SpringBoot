@@ -52,7 +52,28 @@ public class ChatServiceImpl implements ChatService {
                 .collect(Collectors.toList());
 
         return ChatResponseDto.ChatResultDto.builder()
-                .memberId(member.getMemberId())
+                .chatId(chatLog.getChatLogId())
+                .date(chatLog.getDate())
+                .summary(chatLog.getSummary())
+                .keywords(chatLog.getKeywords())
+                .chatting(chatMessageDtos)
+                .build();
+    }
+
+    @Override
+    public ChatResponseDto.ChatResultDto getChat(Long chatId) {
+        // 추후에 권한 확인 로직 추가
+
+        ChatLog chatLog = chatLogRepository.findById(chatId)
+                .orElseThrow(() -> new GeneralException(ErrorStatus.CHAT_NOT_FOUND));
+
+        List<ChatMessage> messages = chatLog.getChatting();
+        List<ChatRequestDto.ChatMessageDto> chatMessageDtos = messages.stream()
+                .map(msg -> new ChatRequestDto.ChatMessageDto(msg.getRole(), msg.getChat()))
+                .collect(Collectors.toList());
+
+        return ChatResponseDto.ChatResultDto.builder()
+                .chatId(chatLog.getChatLogId())
                 .date(chatLog.getDate())
                 .summary(chatLog.getSummary())
                 .keywords(chatLog.getKeywords())

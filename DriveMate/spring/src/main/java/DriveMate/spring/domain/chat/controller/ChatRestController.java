@@ -8,10 +8,7 @@ import DriveMate.spring.domain.chat.service.ChatService;
 import DriveMate.spring.domain.member.dto.MemberResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/chats")
@@ -24,6 +21,14 @@ public class ChatRestController {
             @RequestBody ChatRequestDto.ChatLogDto request)
     {
         ChatResponseDto.ChatResultDto response = chatService.saveChatLog(request);
+        return ApiResponse.onSuccess(SuccessStatus._OK, response);
+    }
+
+    @GetMapping("/{chatId}")
+    public ResponseEntity<ApiResponse> getChatinfo(
+            @PathVariable Long chatId
+    ) {
+        ChatResponseDto.ChatResultDto response = chatService.getChat(chatId);
         return ApiResponse.onSuccess(SuccessStatus._OK, response);
     }
 }

@@ -11,7 +11,7 @@ public class ChatResponseDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class ChatResultDto {
-        private Long memberId;
+        private Long chatId;
         private LocalDateTime date;
         private String summary;
         private String keywords;
