@@ -1,7 +1,6 @@
 package DriveMate.spring.domain.member.entity;
 
 import DriveMate.spring.domain.chat.entity.Chat;
-import DriveMate.spring.domain.member.dto.MemberRequestDto;
 import DriveMate.spring.domain.memberKeyword.entity.MemberKeyword;
 import jakarta.persistence.*;
 import lombok.*;
@@ -47,6 +46,10 @@ public class Member {
 
     @Column(name = "occupation")
     private String occupation;
+
+    @Column(name = "mode")
+    @Enumerated(EnumType.STRING)
+    private Mode mode;
 
     @Column(name = "is_deleted", nullable = false)
     private boolean isDeleted;

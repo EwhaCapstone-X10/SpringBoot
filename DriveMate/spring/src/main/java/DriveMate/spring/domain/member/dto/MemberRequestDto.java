@@ -1,12 +1,15 @@
 package DriveMate.spring.domain.member.dto;
 
 import DriveMate.spring.domain.member.entity.MemberSex;
+import DriveMate.spring.domain.member.entity.Mode;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 public class MemberRequestDto {
     @Getter
@@ -30,6 +33,8 @@ public class MemberRequestDto {
         private String name;
         private int age;
         private MemberSex sex;
+        private Mode mode;
         private String occupation;
+        private List<String> keywords;
     }
 }

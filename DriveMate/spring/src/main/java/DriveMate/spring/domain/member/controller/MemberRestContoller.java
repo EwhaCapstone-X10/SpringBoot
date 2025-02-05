@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/member")
+@RequestMapping("/members")
 @RequiredArgsConstructor
 public class MemberRestContoller {
 
@@ -26,7 +26,7 @@ public class MemberRestContoller {
         return ApiResponse.onSuccess(SuccessStatus._OK, response);
     }
 
-    // 개인정보 저장
+    // 개인정보 업데이트
     @PostMapping("")
     public ResponseEntity<ApiResponse> userInfo(
             @RequestBody @Valid MemberRequestDto.userInfoDto request
@@ -43,5 +43,4 @@ public class MemberRestContoller {
         MemberResponseDto.userInfodto response = memberService.getUserInfo(memberId);
         return ApiResponse.onSuccess(SuccessStatus._OK, response);
     }
-
 }
