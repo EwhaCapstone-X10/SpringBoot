@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 public class MemberRequestDto {
     @Getter
     @Setter
@@ -33,5 +35,6 @@ public class MemberRequestDto {
         private MemberSex sex;
         private Mode mode;
         private String occupation;
+        private List<String> keywords;
     }
 }

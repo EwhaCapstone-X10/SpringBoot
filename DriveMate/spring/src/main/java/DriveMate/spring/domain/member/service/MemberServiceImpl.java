@@ -2,19 +2,28 @@ package DriveMate.spring.domain.member.service;
 
 import DriveMate.spring.common.exception.GeneralException;
 import DriveMate.spring.common.status.ErrorStatus;
+import DriveMate.spring.domain.keyword.entity.Keyword;
+import DriveMate.spring.domain.keyword.repository.KeywordRepository;
 import DriveMate.spring.domain.member.dto.MemberRequestDto;
 import DriveMate.spring.domain.member.dto.MemberResponseDto;
 import DriveMate.spring.domain.member.entity.Member;
 import DriveMate.spring.domain.member.repository.MemberRepository;
+import DriveMate.spring.domain.memberKeyword.entity.MemberKeyword;
+import DriveMate.spring.domain.memberKeyword.repository.MemberKeywordRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
+    private final KeywordRepository keywordRepository;
+    private final MemberKeywordRepository memberKeywordRepository;
 
 
     @Override
@@ -50,6 +59,31 @@ public class MemberServiceImpl implements MemberService {
         member.setMode(request.getMode());
         member.setOccupation(request.getOccupation());
 
+        if (request.getKeywords() != null) {
+            memberKeywordRepository.deleteAllByMember(member);
+
+            List<MemberKeyword> memberKeywords = request.getKeywords().stream()
+                    .map(keywordName -> {
+                        // 키워드 이름으로 키워드 조회
+                        Keyword keyword = keywordRepository.findByName(keywordName)
+                                .orElseThrow(() -> new GeneralException(ErrorStatus.CATEGORY_NOT_FOUND));
+
+                        // MemberKeyword 생성
+                        return MemberKeyword.builder()
+                                .member(member)
+                                .keyword(keyword)
+                                .build();
+                    })
+                    .collect(Collectors.toList());
+
+            // MemberKeyword 저장
+            memberKeywordRepository.saveAll(memberKeywords);
+        }
+
+        List<String> keywordnames = memberKeywordRepository.findAllByMember(member).stream()
+                        .map(memberKeyword -> memberKeyword.getKeyword().getName())
+                                .collect(Collectors.toList());
+
         memberRepository.save(member);
         return MemberResponseDto.userInfodto.builder()
                 .memberId(member.getMemberId())
@@ -58,6 +92,7 @@ public class MemberServiceImpl implements MemberService {
                 .sex(member.getSex())
                 .mode(member.getMode())
                 .occupation(member.getOccupation())
+                .keywords(keywordnames)
                 .build();
 
     }

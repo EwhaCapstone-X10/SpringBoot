@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class MemberResponseDto {
 
@@ -31,6 +32,6 @@ public class MemberResponseDto {
         private MemberSex sex;
         private Mode mode;
         private String occupation;
-
+        private List<String> keywords;
     }
 }
