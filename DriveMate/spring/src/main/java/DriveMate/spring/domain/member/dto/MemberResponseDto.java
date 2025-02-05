@@ -1,6 +1,7 @@
 package DriveMate.spring.domain.member.dto;
 
 import DriveMate.spring.domain.member.entity.MemberSex;
+import DriveMate.spring.domain.member.entity.Mode;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,6 +29,7 @@ public class MemberResponseDto {
         private String name;
         private Integer age;
         private MemberSex sex;
+        private Mode mode;
         private String occupation;
 
     }

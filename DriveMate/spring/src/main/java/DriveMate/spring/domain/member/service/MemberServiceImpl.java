@@ -47,6 +47,7 @@ public class MemberServiceImpl implements MemberService {
         member.setName(request.getName());
         member.setAge(request.getAge());
         member.setSex(request.getSex());
+        member.setMode(request.getMode());
         member.setOccupation(request.getOccupation());
 
         memberRepository.save(member);
@@ -55,6 +56,7 @@ public class MemberServiceImpl implements MemberService {
                 .name(member.getName())
                 .age(member.getAge())
                 .sex(member.getSex())
+                .mode(member.getMode())
                 .occupation(member.getOccupation())
                 .build();
 
@@ -70,6 +72,7 @@ public class MemberServiceImpl implements MemberService {
                 .name(member.getName())
                 .age(member.getAge())
                 .sex(member.getSex())
+                .mode(member.getMode())
                 .occupation(member.getOccupation())
                 .build();
     }
