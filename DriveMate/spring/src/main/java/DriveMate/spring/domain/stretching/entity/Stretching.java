@@ -18,9 +18,11 @@ public class Stretching {
 
     private boolean isVideo;
 
-    private String videoUrl;
+    private String src;
 
-    private String name;
+    private String source;
+
+    private String title;
 
     private String description;
 }
