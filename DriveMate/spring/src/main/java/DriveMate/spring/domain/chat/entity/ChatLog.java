@@ -22,7 +22,7 @@ public class ChatLog {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    private LocalDateTime Date;
+    private LocalDateTime date;
 
     private String summary;
 
