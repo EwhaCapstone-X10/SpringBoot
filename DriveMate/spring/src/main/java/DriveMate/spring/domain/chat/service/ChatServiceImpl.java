@@ -40,6 +40,7 @@ public class ChatServiceImpl implements ChatService {
 
         List<ChatMessage> messages = request.getChatting().stream()
                 .map(chatMessageDto -> ChatMessage.builder()
+                        .idx(chatMessageDto.getIdx())
                         .role(chatMessageDto.getRole())
                         .chat(chatMessageDto.getChat())
                         .chatLog(savedChatLog)
@@ -48,7 +49,7 @@ public class ChatServiceImpl implements ChatService {
         chatMessageRepository.saveAll(messages);
 
         List<ChatRequestDto.ChatMessageDto> chatMessageDtos = messages.stream()
-                .map(msg -> new ChatRequestDto.ChatMessageDto(msg.getRole(), msg.getChat()))
+                .map(msg -> new ChatRequestDto.ChatMessageDto(msg.getIdx(), msg.getRole(), msg.getChat()))
                 .collect(Collectors.toList());
 
         return ChatResponseDto.ChatResultDto.builder()
@@ -69,7 +70,7 @@ public class ChatServiceImpl implements ChatService {
 
         List<ChatMessage> messages = chatLog.getChatting();
         List<ChatRequestDto.ChatMessageDto> chatMessageDtos = messages.stream()
-                .map(msg -> new ChatRequestDto.ChatMessageDto(msg.getRole(), msg.getChat()))
+                .map(msg -> new ChatRequestDto.ChatMessageDto(msg.getIdx(), msg.getRole(), msg.getChat()))
                 .collect(Collectors.toList());
 
         return ChatResponseDto.ChatResultDto.builder()
