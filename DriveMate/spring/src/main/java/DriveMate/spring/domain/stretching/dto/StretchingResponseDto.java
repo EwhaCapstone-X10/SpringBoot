@@ -12,7 +12,8 @@ public class StretchingResponseDto {
     public static class StretchingInfodto {
         private Long stretchingId;
         private boolean isVideo;
-        private String videoUrl;
+        private String src;
+        private String source;
         private String title;
         private String description;
     }
