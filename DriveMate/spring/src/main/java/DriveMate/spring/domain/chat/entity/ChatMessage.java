@@ -15,6 +15,8 @@ public class ChatMessage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ChatMessageId;
 
+    private Integer idx;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 

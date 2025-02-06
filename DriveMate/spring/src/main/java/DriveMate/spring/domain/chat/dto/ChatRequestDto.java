@@ -18,6 +18,7 @@ public class ChatRequestDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class ChatMessageDto {
+        private Integer idx;
         private Role role;
         private String chat;
     }
