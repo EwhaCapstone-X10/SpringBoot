@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class MemberResponseDto {
     public static class userInfodto {
         private Long memberId;
         private String name;
-        private Integer age;
+        private LocalDate birthdate;
         private MemberSex sex;
         private Mode mode;
         private String occupation;

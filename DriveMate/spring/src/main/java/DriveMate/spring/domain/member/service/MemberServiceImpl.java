@@ -55,7 +55,7 @@ public class MemberServiceImpl implements MemberService {
                 .orElseThrow(() -> new GeneralException(ErrorStatus.MEMBER_NOT_FOUND));
 
         member.setName(request.getName());
-        member.setAge(request.getAge());
+        member.setBirthdate(request.getBirthdate());
         member.setSex(request.getSex());
         member.setMode(request.getMode());
         member.setOccupation(request.getOccupation());
@@ -89,7 +89,7 @@ public class MemberServiceImpl implements MemberService {
         return MemberResponseDto.userInfodto.builder()
                 .memberId(member.getMemberId())
                 .name(member.getName())
-                .age(member.getAge())
+                .birthdate(member.getBirthdate())
                 .sex(member.getSex())
                 .mode(member.getMode())
                 .occupation(member.getOccupation())
@@ -110,7 +110,7 @@ public class MemberServiceImpl implements MemberService {
         return MemberResponseDto.userInfodto.builder()
                 .memberId(member.getMemberId())
                 .name(member.getName())
-                .age(member.getAge())
+                .birthdate(member.getBirthdate())
                 .sex(member.getSex())
                 .mode(member.getMode())
                 .occupation(member.getOccupation())
