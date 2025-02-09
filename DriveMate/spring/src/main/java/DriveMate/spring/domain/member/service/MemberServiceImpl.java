@@ -60,10 +60,10 @@ public class MemberServiceImpl implements MemberService {
         member.setMode(request.getMode());
         member.setOccupation(request.getOccupation());
 
-        if (request.getKeywords() != null) {
+        if (request.getInterests() != null) {
             memberKeywordRepository.deleteAllByMember(member);
 
-            List<MemberKeyword> memberKeywords = request.getKeywords().stream()
+            List<MemberKeyword> memberKeywords = request.getInterests().stream()
                     .map(keywordName -> {
                         // 키워드 이름으로 키워드 조회
                         Keyword keyword = keywordRepository.findByName(keywordName)
@@ -93,7 +93,7 @@ public class MemberServiceImpl implements MemberService {
                 .sex(member.getSex())
                 .mode(member.getMode())
                 .occupation(member.getOccupation())
-                .keywords(keywordnames)
+                .interests(keywordnames)
                 .build();
 
     }
@@ -114,7 +114,7 @@ public class MemberServiceImpl implements MemberService {
                 .sex(member.getSex())
                 .mode(member.getMode())
                 .occupation(member.getOccupation())
-                .keywords(keywordnames)
+                .interests(keywordnames)
                 .build();
     }
 

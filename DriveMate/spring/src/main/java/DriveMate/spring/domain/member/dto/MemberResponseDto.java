@@ -32,6 +32,6 @@ public class MemberResponseDto {
         private MemberSex sex;
         private Mode mode;
         private String occupation;
-        private List<String> keywords;
+        private List<String> interests;
     }
 }
