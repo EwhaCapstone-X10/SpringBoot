@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class MemberRequestDto {
@@ -31,10 +32,10 @@ public class MemberRequestDto {
     public static class userInfoDto {
         private Long memberId;
         private String name;
-        private int age;
+        private LocalDate birthdate;
         private MemberSex sex;
         private Mode mode;
         private String occupation;
-        private List<String> keywords;
+        private List<String> interests;
     }
 }
