@@ -26,15 +26,13 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     @Transactional
-    public ChatResponseDto.ChatResultDto saveChatLog(ChatRequestDto.ChatLogDto request) {
+    public ChatResponseDto.ChatLogResultDto saveChatLog(ChatRequestDto.ChatLogDto request) {
         Member member = memberRepository.findById(request.getMemberId())
                 .orElseThrow(() -> new GeneralException(ErrorStatus.MEMBER_NOT_FOUND));
 
         ChatLog chatLog = ChatLog.builder()
                 .member(member)
                 .date(request.getDate())
-                .summary(request.getSummary())
-                .keywords(request.getKeywords())
                 .build();
         ChatLog savedChatLog = chatLogRepository.save(chatLog);
 
@@ -49,16 +47,22 @@ public class ChatServiceImpl implements ChatService {
         chatMessageRepository.saveAll(messages);
 
         List<ChatRequestDto.ChatMessageDto> chatMessageDtos = messages.stream()
-                .map(msg -> new ChatRequestDto.ChatMessageDto(msg.getIdx(), msg.getRole(), msg.getChat()))
+                .map(msg -> new ChatRequestDto.ChatMessageDto(msg.getRole(), msg.getChat(), msg.getIdx()))
                 .collect(Collectors.toList());
 
-        return ChatResponseDto.ChatResultDto.builder()
+        return ChatResponseDto.ChatLogResultDto.builder()
                 .chatId(chatLog.getChatLogId())
-                .date(chatLog.getDate())
-                .summary(chatLog.getSummary())
-                .keywords(chatLog.getKeywords())
-                .chatting(chatMessageDtos)
                 .build();
+    }
+
+    @Override
+    public void saveChatSummary(ChatRequestDto.ChatSummaryDto request) {
+        ChatLog chatLog = chatLogRepository.findById(request.getChatId())
+                .orElseThrow(() -> new GeneralException(ErrorStatus.CHAT_NOT_FOUND));
+
+        chatLog.setSummary(request.getSummary());
+        chatLog.setKeywords(request.getKeywords());
+        chatLogRepository.save(chatLog);
     }
 
     @Override
@@ -70,7 +74,7 @@ public class ChatServiceImpl implements ChatService {
 
         List<ChatMessage> messages = chatLog.getChatting();
         List<ChatRequestDto.ChatMessageDto> chatMessageDtos = messages.stream()
-                .map(msg -> new ChatRequestDto.ChatMessageDto(msg.getIdx(), msg.getRole(), msg.getChat()))
+                .map(msg -> new ChatRequestDto.ChatMessageDto(msg.getRole(), msg.getChat(), msg.getIdx()))
                 .collect(Collectors.toList());
 
         return ChatResponseDto.ChatResultDto.builder()
