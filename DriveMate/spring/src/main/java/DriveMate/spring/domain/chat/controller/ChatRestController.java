@@ -24,6 +24,14 @@ public class ChatRestController {
         return ApiResponse.onSuccess(SuccessStatus._OK, response);
     }
 
+    @PostMapping("/summary")
+    public ResponseEntity<ApiResponse> saveChatSummary(
+            @RequestBody ChatRequestDto.ChatSummaryDto request)
+    {
+        chatService.saveChatSummary(request);
+        return ApiResponse.onSuccess(SuccessStatus._OK);
+    }
+
     @GetMapping("/{chatId}")
     public ResponseEntity<ApiResponse> getChatinfo(
             @PathVariable Long chatId

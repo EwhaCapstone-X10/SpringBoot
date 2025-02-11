@@ -56,6 +56,16 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
+    public void saveChatSummary(ChatRequestDto.ChatSummaryDto request) {
+        ChatLog chatLog = chatLogRepository.findById(request.getChatId())
+                .orElseThrow(() -> new GeneralException(ErrorStatus.CHAT_NOT_FOUND));
+
+        chatLog.setSummary(request.getSummary());
+        chatLog.setKeywords(request.getKeywords());
+        chatLogRepository.save(chatLog);
+    }
+
+    @Override
     public ChatResponseDto.ChatResultDto getChat(Long chatId) {
         // 추후에 권한 확인 로직 추가
 

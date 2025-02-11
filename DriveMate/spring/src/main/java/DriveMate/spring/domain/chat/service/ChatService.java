@@ -5,5 +5,7 @@ import DriveMate.spring.domain.chat.dto.ChatResponseDto;
 
 public interface ChatService {
     ChatResponseDto.ChatLogResultDto saveChatLog(ChatRequestDto.ChatLogDto request);
+    void saveChatSummary(ChatRequestDto.ChatSummaryDto request);
     ChatResponseDto.ChatResultDto getChat(Long chatId);
+
 }

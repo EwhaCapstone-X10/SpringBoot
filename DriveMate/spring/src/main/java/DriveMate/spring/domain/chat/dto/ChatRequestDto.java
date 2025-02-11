@@ -42,4 +42,17 @@ public class ChatRequestDto {
         @NotNull(message = "채팅 리스트는 필수입니다.")
         private List<ChatMessageDto> chatting;
     }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ChatSummaryDto {
+        @NotNull(message = "chatId는 필수입니다.")
+        private Long chatId;
+
+        private String summary;
+        private String keywords;
+
+    }
 }
