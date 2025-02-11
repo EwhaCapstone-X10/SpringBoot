@@ -21,6 +21,7 @@ public class ChatRequestDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class ChatMessageDto {
+
         @NotNull(message = "역할(user or gpt)은 필수입니다.")
         private Role role;
 

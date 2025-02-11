@@ -39,4 +39,12 @@ public class ChatRestController {
         ChatResponseDto.ChatResultDto response = chatService.getChat(chatId);
         return ApiResponse.onSuccess(SuccessStatus._OK, response);
     }
+
+    @DeleteMapping("/{chatId}")
+    public ResponseEntity<ApiResponse> deleteChat(
+            @PathVariable Long chatId
+    ) {
+        chatService.deleteChat(chatId);
+        return ApiResponse.onSuccess(SuccessStatus._DELETED);
+    }
 }

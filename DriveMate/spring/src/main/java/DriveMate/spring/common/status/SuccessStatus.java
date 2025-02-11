@@ -8,7 +8,8 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum SuccessStatus {
 
-    _OK(HttpStatus.OK, "COMMON200", "SUCCESS!");
+    _OK(HttpStatus.OK, "COMMON200", "SUCCESS!"),
+    _DELETED(HttpStatus.OK, "COMMON200", "DELETED!");
 
     private final HttpStatus status;
     private final String code;
