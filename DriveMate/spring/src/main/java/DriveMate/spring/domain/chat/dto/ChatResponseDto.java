@@ -17,4 +17,12 @@ public class ChatResponseDto {
         private String keywords;
         private List<ChatRequestDto.ChatMessageDto> chatting;
     }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ChatLogResultDto {
+        private Long chatId;
+    }
 }

@@ -20,7 +20,7 @@ public class ChatRestController {
     public ResponseEntity<ApiResponse> saveChat(
             @RequestBody ChatRequestDto.ChatLogDto request)
     {
-        ChatResponseDto.ChatResultDto response = chatService.saveChatLog(request);
+        ChatResponseDto.ChatLogResultDto response = chatService.saveChatLog(request);
         return ApiResponse.onSuccess(SuccessStatus._OK, response);
     }
 
