@@ -25,4 +25,14 @@ public class ChatResponseDto {
     public static class ChatLogResultDto {
         private Long chatId;
     }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ChatListDto {
+        private Long chatId;
+        private LocalDateTime date;
+        private String summary;
+    }
 }

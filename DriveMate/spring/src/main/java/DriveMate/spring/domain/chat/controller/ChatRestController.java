@@ -7,8 +7,13 @@ import DriveMate.spring.domain.chat.dto.ChatResponseDto;
 import DriveMate.spring.domain.chat.service.ChatService;
 import DriveMate.spring.domain.member.dto.MemberResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/chats")
@@ -46,5 +51,15 @@ public class ChatRestController {
     ) {
         chatService.deleteChat(chatId);
         return ApiResponse.onSuccess(SuccessStatus._DELETED);
+    }
+
+    @GetMapping("")
+    public ResponseEntity<ApiResponse> getChats(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size,
+            @RequestParam int year
+    ) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "date"));
+        return chatService.getChatList(pageable, year);
     }
 }

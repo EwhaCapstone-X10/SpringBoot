@@ -1,7 +1,10 @@
 package DriveMate.spring.domain.chat.service;
 
 import DriveMate.spring.common.exception.GeneralException;
+import DriveMate.spring.common.response.ApiResponse;
+import DriveMate.spring.common.response.PageInfo;
 import DriveMate.spring.common.status.ErrorStatus;
+import DriveMate.spring.common.status.SuccessStatus;
 import DriveMate.spring.domain.chat.dto.ChatRequestDto;
 import DriveMate.spring.domain.chat.dto.ChatResponseDto;
 import DriveMate.spring.domain.chat.entity.ChatLog;
@@ -12,6 +15,9 @@ import DriveMate.spring.domain.member.entity.Member;
 import DriveMate.spring.domain.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -93,5 +99,24 @@ public class ChatServiceImpl implements ChatService {
                 .orElseThrow(() -> new GeneralException(ErrorStatus.CHAT_NOT_FOUND));
 
         chatLogRepository.delete(chatLog);
+    }
+
+    @Override
+    public ResponseEntity<ApiResponse> getChatList(Pageable pageable, Integer year) {
+        Page<ChatLog> chatPage = chatLogRepository.findByYear(year, pageable);
+
+        PageInfo pageInfo = new PageInfo(chatPage.getNumber(), chatPage.getSize(),
+                chatPage.hasNext(), chatPage.getTotalElements(), chatPage.getTotalPages());
+
+        List<ChatResponseDto.ChatListDto> chatListDtos = chatPage.getContent().stream()
+                .map(chat -> ChatResponseDto.ChatListDto.builder()
+                        .chatId(chat.getChatLogId())
+                        .summary(chat.getSummary())
+                        .date(chat.getDate())
+                        .build())
+                .collect(Collectors.toList());
+
+
+        return ApiResponse.onSuccess(SuccessStatus._OK, pageInfo, chatListDtos);
     }
 }
