@@ -54,23 +54,23 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
-// QueryDSL 관련 설정
-def querydslDir = "src/main/generated"
+// ✅ QueryDSL 관련 설정 (Gradle 8.x 호환)
+def querydslDir = file("src/main/generated")
 
 sourceSets {
-    main.java.srcDirs += [querydslDir]
+    main.java.srcDirs += querydslDir
 }
 
 tasks.withType(JavaCompile).configureEach {
-    options.annotationProcessorGeneratedSourcesDir = file(querydslDir)
+    destinationDirectory.set(querydslDir)
 }
 
-// Clean Task 수정 (중복 제거)
+// ✅ Clean Task 최적화 (중복 제거)
 tasks.named('clean').configure {
     delete querydslDir
 }
 
-// Java 17 이상을 위한 JVM 설정 추가
+// ✅ Java 17 이상을 위한 JVM 설정 추가
 tasks.withType(JavaCompile).configureEach {
     options.compilerArgs += [
         '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
