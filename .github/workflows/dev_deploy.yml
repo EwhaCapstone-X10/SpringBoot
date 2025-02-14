@@ -21,6 +21,18 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+      - name: Create application.properties
+        run: |
+          cat <<EOF > DriveMate/spring/src/main/resources/application.properties
+          spring.datasource.url=${{ secrets.RDS_URL }}
+          spring.datasource.username=${{ secrets.RDS_USERNAME }}
+          spring.datasource.password=${{ secrets.RDS_PASSWORD }}
+          spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
+          spring.jpa.database-platform=org.hibernate.dialect.MySQL8Dialect
+          spring.jpa.hibernate.ddl-auto=update
+          EOF
+
       # 3️⃣ Gradle 빌드
       - name: Grant execute permission for gradlew  # gradlew 실행 권한 부여
         run: chmod +x DriveMate/spring/gradlew
@@ -68,13 +80,19 @@ jobs:
             # JAR 파일 찾기
             jar_file=$(find build/libs -name '*.jar' ! -name '*plain.jar' | head -n 1)
             echo "JAR 파일 경로: $jar_file"
-
+  
             # EC2에 JAR 파일 전송
             scp -i drivemate.pem -o StrictHostKeyChecking=no "$jar_file" $EC2_USERNAME@$EC2_HOST:/home/$EC2_USERNAME/Drivemate-Server.jar
-            ssh -i drivemate.pem -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_HOST "
-              pgrep java | xargs -r kill -15  # 기존에 실행 중인 Java 프로세스 종료
-              sleep 10
-              nohup java -jar /home/$EC2_USERNAME/Drivemate-Server.jar > app.log 2>&1 &  # 새 버전 애플리케이션 실행
-            "
+            
+            # EC2에서 실행 중인 서버 종료 및 새 JAR 실행
+            ssh -i drivemate.pem -o StrictHostKeyChecking=no $EC2_USERNAME@$EC2_HOST << 'EOF'
+              echo "🔄 기존 프로세스 종료 중..."
+              pkill -f 'java -jar' || echo "No process to kill"
+  
+              echo "🚀 새로운 서버 실행 중..."
+              nohup java -jar /home/$EC2_USERNAME/Drivemate-Server.jar > /home/$EC2_USERNAME/app.log 2>&1 &
+              echo "✅ 배포 완료"
+            EOF
+  
             # SSH 키 삭제
             rm -f drivemate.pem 
